@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Contacts book</title>
+    <style>
+        #contacts_container{
+                position: absolute;
+                left:50%;
+                top:50%;
+                transform:translate(-50%,-50%);
+                }
+
+                #contacts{
+                width: 50%;
+                border-collapse: collapse;
+                }
+
+                div{
+                margin: 10px 20px;
+                }
+
+                table{
+                margin: 25px;
+                }
+
+                th{
+                text-align: left;
+                }
+
+                h1{
+                text-align: center;
+                color: red;
+                }
+
+                label, a{
+                font-weight: bold;
+                }
+
+                th,td{
+                border-bottom: 1px solid #ddd;
+                }
+
+                td {
+                padding-right: 40px;
+}
+    </style>
+</head>
+<body>
+
+<div id="contacts_container">
+    <h1>CONTACTS BOOK</h1>
+    <form action="/contacts/save" method="post">
+        <input type="hidden" name="id" th:value="${contact.id}">
+        <div>
+            <label for="firstName">First name</label>
+            <input type="text" id="firstName" name="firstName" required th:value="${contact.firstName}">
+        </div>
+        <div>
+            <label for="lastName">Last name</label>
+            <input type="text" id="lastName" name="lastName" required th:value="${contact.lastName}">
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email" required th:value="${contact.email}">
+        </div>
+        <div>
+            <label for="phoneNumber">Number phone</label>
+            <input type="tel" id="phoneNumber" name="phoneNumber" pattern="[0-9]{1,12}" required th:value="${contact.phoneNumber}">
+            <small>Format: 781017754894 (не более 12)</small><br><br>
+        </div>
+        <div>
+        <button type="submit">Save/Edit</button>
+        </div>
+    </form>
+    <table id="contacts">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Email</th>
+            <th>Number phone</th>
+        </tr>
+        </thead>
+        <tr th:each="contact : ${contacts}">
+            <td th:text="${contact.id}"></td>
+            <td th:text="${contact.firstName}"></td>
+            <td th:text="${contact.lastName}"></td>
+            <td th:text="${contact.email}"></td>
+            <td th:text="${contact.phoneNumber}"></td>
+            <td>
+                <a th:href="@{/contacts/delete/{id}(id=${contact.id})}">Delete contact</a>
+            </td>
+            <td>
+                <a th:href="@{/contacts/update/{id}(id=${contact.id})}">Update data</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
